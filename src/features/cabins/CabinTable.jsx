@@ -12,6 +12,7 @@ function CabinTable() {
 
   if (isLoading) return <Spinner />;
 
+  // 1. Get the filter value from the URL
   const filterValue = searchParams.get("discount") || "all";
 
   let filteredCabins;
@@ -20,6 +21,14 @@ function CabinTable() {
     filteredCabins = cabins.filter((cabin) => cabin.discount > 0);
   if (filterValue === "no-discount")
     filteredCabins = cabins.filter((cabin) => cabin.discount === 0);
+
+  //2. Get the sort value from the URL
+  const sortBy = searchParams.get("sortBy") || "startDate-asc";
+  const [field, direction] = sortBy.split("-");
+  const sortedCabins = filteredCabins.sort((a, b) => {
+    if (direction === "asc") return a[field] - b[field];
+    if (direction === "desc") return b[field] - a[field];
+  });
 
   return (
     <Menus>
