@@ -5,12 +5,16 @@ import Spinner from "../../ui/Spinner";
 import CabinRow from "./CabinRow";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
+import Empty from "../../ui/Empty";
 
 function CabinTable() {
   const { isLoading, cabins } = useCabins();
   const [searchParams, setSearchParams] = useSearchParams();
 
   if (isLoading) return <Spinner />;
+  if (cabins.length === 0) {
+    return <Empty resource="cabins" />;
+  }
 
   // 1. Get the filter value from the URL
   const filterValue = searchParams.get("discount") || "all";
